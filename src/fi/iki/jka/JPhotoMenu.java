@@ -55,7 +55,8 @@ public class JPhotoMenu {
     public static String A_FULLVIEW = "Show Fullscreen";
     public static String A_SHOWEXIF = "Exif information...";
     public static String A_SLIDESHOW = "Start Slideshow";
-    
+    public static String A__FAST_SLIDESHOW = "Start Fast Slideshow";
+
     public static String A_HELP = "Contents...";
     public static String A_ABOUT = "About...";
 

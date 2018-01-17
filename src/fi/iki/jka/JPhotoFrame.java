@@ -98,7 +98,6 @@ public class JPhotoFrame extends JFrame
     protected JFrame helpFrame = null;
     protected File photoDirectory = null;
 
-    protected int interval;
     
     protected static HashMap allFrames = new HashMap();
     
@@ -107,25 +106,17 @@ public class JPhotoFrame extends JFrame
     }
 
     public JPhotoFrame(String frameName, JPhotoCollection photos) throws Exception {
-        init(frameName, photos, 5000);
+        init(frameName, photos);
     }
 
-    public JPhotoFrame(String frameName, JPhotoCollection photos, int interval) throws Exception {
-        init(frameName, photos, interval);
-    }
 
     public JPhotoFrame(String frameName, String files[]) throws Exception {
-        init(frameName, new JPhotoCollection(files), 5000);
-    }
-
-    public JPhotoFrame(String frameName, String files[], int interval) throws Exception {
-        init(frameName, new JPhotoCollection(files), interval);
+        init(frameName, new JPhotoCollection(files));
     }
 
     /** Real init called from different constructors
      */
-    protected void init(String frameName, JPhotoCollection photos, int interval) throws Exception {
-        this.interval = interval;
+    protected void init(String frameName, JPhotoCollection photos) throws Exception {
         prefs = Preferences.userRoot().node("/fi/iki/jka/jphotoframe");        
         JPhotoPageInfo.setDefault(prefs.get(PAGEINFO, null));
         photoDirectory = new File(prefs.get(PHOTO_DIR, System.getProperty("user.dir")));
@@ -591,14 +582,11 @@ public class JPhotoFrame extends JFrame
             showExif();
         }
         else if (cmd.equals(JPhotoMenu.A_SLIDESHOW)) {
-            if (photos.getSize()>0) {
-                JPhotoShow show = new JPhotoShow(photos, interval, list);
-                show.setVisible(true);
-            }
-            else
-                JOptionPane.showMessageDialog(this, "No photos to show!",
-                                              APP_NAME, JOptionPane.ERROR_MESSAGE);
-                
+            getSlideShow(5000);
+
+        } else if (cmd.equals(JPhotoMenu.A__FAST_SLIDESHOW)) {
+            getSlideShow(2000);
+
         }
         else if (cmd.equals(JPhotoMenu.A_HELP)) {
             displayHelp();
@@ -635,6 +623,15 @@ public class JPhotoFrame extends JFrame
             System.out.println("Not implemented: "+cmd);
         
         setTitle();
+    }
+
+    public void getSlideShow(int interval) {
+        if (photos.getSize() > 0) {
+            JPhotoShow show = new JPhotoShow(photos, interval, list);
+            show.setVisible(true);
+        } else
+            JOptionPane.showMessageDialog(this, "No photos to show!",
+                    APP_NAME, JOptionPane.ERROR_MESSAGE);
     }
 
     public void insertPhotos(String files[]) {

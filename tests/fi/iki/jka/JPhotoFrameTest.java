@@ -10,19 +10,52 @@ import static junit.framework.TestCase.assertEquals;
 
 public class JPhotoFrameTest {
 
+    int expectedInterval;
+
     @Test
     public void doesStandardSlideshowStart() throws Exception {
 
-        String[] photos = new String[1];
-        photos[0] = "./tests/resources/Online-picture1.jpg";
+        JPhotoFrame jPhotoFrame = new JPhotoFrame(){
 
-        JPhotoCollection jPhotoCollection = new JPhotoCollection(photos);
-        JPhotoFrame jPhotoFrame = new JPhotoFrame("", jPhotoCollection);
+            @Override
+            public void getSlideShow(int interval) {
+                expectedInterval = interval;
+            }
+
+            @Override
+            public void setTitle() {
+
+            }
+        };
+
         jPhotoFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         jPhotoFrame.actionPerformed(new ActionEvent("a",1,JPhotoMenu.A_SLIDESHOW));
 
-        assertEquals(jPhotoFrame.interval,5000);
+        assertEquals(expectedInterval,5000);
     }
 
+
+    @Test
+    public void doesFastSlideshowStart() throws Exception {
+
+        JPhotoFrame jPhotoFrame = new JPhotoFrame(){
+
+            @Override
+            public void getSlideShow(int interval) {
+                expectedInterval = interval;
+            }
+
+            @Override
+            public void setTitle() {
+
+            }
+        };
+
+        jPhotoFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        jPhotoFrame.actionPerformed(new ActionEvent("a",1,JPhotoMenu.A__FAST_SLIDESHOW));
+
+        assertEquals(expectedInterval,2000);
+    }
 }
