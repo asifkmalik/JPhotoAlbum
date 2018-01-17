@@ -97,6 +97,8 @@ public class JPhotoFrame extends JFrame
     protected JPhotoExifDialog exifDialog = null;
     protected JFrame helpFrame = null;
     protected File photoDirectory = null;
+
+    protected int interval;
     
     protected static HashMap allFrames = new HashMap();
     
@@ -105,16 +107,25 @@ public class JPhotoFrame extends JFrame
     }
 
     public JPhotoFrame(String frameName, JPhotoCollection photos) throws Exception {
-        init(frameName, photos);
+        init(frameName, photos, 5000);
+    }
+
+    public JPhotoFrame(String frameName, JPhotoCollection photos, int interval) throws Exception {
+        init(frameName, photos, interval);
     }
 
     public JPhotoFrame(String frameName, String files[]) throws Exception {
-        init(frameName, new JPhotoCollection(files));
+        init(frameName, new JPhotoCollection(files), 5000);
+    }
+
+    public JPhotoFrame(String frameName, String files[], int interval) throws Exception {
+        init(frameName, new JPhotoCollection(files), interval);
     }
 
     /** Real init called from different constructors
      */
-    protected void init(String frameName, JPhotoCollection photos) throws Exception {
+    protected void init(String frameName, JPhotoCollection photos, int interval) throws Exception {
+        this.interval = interval;
         prefs = Preferences.userRoot().node("/fi/iki/jka/jphotoframe");        
         JPhotoPageInfo.setDefault(prefs.get(PAGEINFO, null));
         photoDirectory = new File(prefs.get(PHOTO_DIR, System.getProperty("user.dir")));
@@ -438,7 +449,7 @@ public class JPhotoFrame extends JFrame
                     JOptionPane.showMessageDialog(this, "File not set");
                     return;
                 }
-                boolean status = photos.exportSlideshESow(targetFile, 1);
+                boolean status = photos.exportSlideshow(targetFile, 1);
                 if (status==false)
                     JOptionPane.showMessageDialog(this, "Export of slideshow to "+albumFileName+ " failed.",
                                                   APP_NAME, JOptionPane.ERROR_MESSAGE);
@@ -581,7 +592,7 @@ public class JPhotoFrame extends JFrame
         }
         else if (cmd.equals(JPhotoMenu.A_SLIDESHOW)) {
             if (photos.getSize()>0) {
-                JPhotoShow show = new JPhotoShow(photos, 5000, list);
+                JPhotoShow show = new JPhotoShow(photos, interval, list);
                 show.setVisible(true);
             }
             else

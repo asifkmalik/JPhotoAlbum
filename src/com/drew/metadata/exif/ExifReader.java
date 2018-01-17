@@ -476,7 +476,7 @@ public class ExifReader implements MetadataReader
 // TODO test this still works
             case TAG_USER_COMMENT:
                 // Olympus has this padded with trailing spaces.  Remove these first.
-                // ArrayIndexOutOfBoundsException bug fixed by Hendrik Wördehoff - 20 Sep 2002
+                // ArrayIndexOutOfBoundsException bug fixed by Hendrik Wï¿½rdehoff - 20 Sep 2002
                 int byteCount = componentCount * BYTES_PER_FORMAT[formatCode];
                 for (int i = byteCount - 1; i >= 0; i--) {
                     if (_data[tagValueOffset + i] == ' ') {
@@ -571,7 +571,7 @@ public class ExifReader implements MetadataReader
     private String readCommentString(int tagValueOffset, int componentCount, int formatCode)
     {
         // Olympus has this padded with trailing spaces.  Remove these first.
-        // ArrayIndexOutOfBoundsException bug fixed by Hendrik Wördehoff - 20 Sep 2002
+        // ArrayIndexOutOfBoundsException bug fixed by Hendrik Wï¿½rdehoff - 20 Sep 2002
         int byteCount = componentCount * BYTES_PER_FORMAT[formatCode];
         for (int i = byteCount - 1; i>=0; i--) {
             if (_data[tagValueOffset + i]==' ') {

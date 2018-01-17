@@ -1,25 +1,28 @@
 package fi.iki.jka;
 
 import org.junit.Test;
-import org.mockito.Mock;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+
+import static junit.framework.TestCase.assertEquals;
 
 
 public class JPhotoFrameTest {
 
-    @Mock
-    JPhotoCollection jPhotoCollection = mock(JPhotoCollection.class);
-
-
     @Test
-    public void testStartShowsErrorWithNoPhotosSelected() throws Exception {
+    public void doesStandardSlideshowStart() throws Exception {
 
-        JPhotoFrame jPhotoFrame = new JPhotoFrame("name",jPhotoCollection);
+        String[] photos = new String[1];
+        photos[0] = "./tests/resources/Online-picture1.jpg";
 
+        JPhotoCollection jPhotoCollection = new JPhotoCollection(photos);
+        JPhotoFrame jPhotoFrame = new JPhotoFrame("", jPhotoCollection);
+        jPhotoFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        assertThat(2, equalTo(2));
+        jPhotoFrame.actionPerformed(new ActionEvent("a",1,JPhotoMenu.A_SLIDESHOW));
+
+        assertEquals(jPhotoFrame.interval,5000);
     }
+
 }
